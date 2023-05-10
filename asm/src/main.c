@@ -160,7 +160,16 @@ int main(int argc, char *argv[])
         }
     }
 
-    printf("%d", size);
+    /** // TODO LIST
+     *  - show menu title based on admin
+     *  - get user input
+     *  - on top go to prev
+     *  - on botton go to next
+     *  - on right call the function relative to current node
+     *  - create function for each item of array
+     *      > each must have the correct submenu of options to assign to the new value (call change_value)
+     */ 
+    
 
     return 0;
 }
