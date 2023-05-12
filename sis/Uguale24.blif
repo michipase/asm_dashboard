@@ -1,0 +1,19 @@
+.model uguale24
+.inputs A4 A3 A2 A1 A0
+.ouputs O
+.subckt one  O=u 
+.subckt zero O=z
+.subckt eq A=A4 B=u O=o4
+.subckt eq A=A3 B=u O=o3
+.subckt eq A=A2 B=z O=o2
+.subckt eq A=A1 B=z O=o1
+.subckt eq A=A0 B=z O=o0
+.names o0 o1 o2 o3 o4 O
+ 11111 1
+.search Eq.blif
+.search one.blif
+.search zero.blif
+
+
+.end
+

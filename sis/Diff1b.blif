@@ -1,0 +1,16 @@
+.model diff1b
+.input A B CIN
+.output O COUT
+.names A B k
+10 1
+01 1
+.names k CIN O
+10 1
+01 1
+.names A B CIN COUT
+010 1
+001 1
+111 1
+011 1
+.end 
+

@@ -1,0 +1,17 @@
+.model demulti5b
+.inputs C1 C0 A4 A3 A2 A1 A0
+.outputs X0 Y0 Z0 W0 X1 Y1 Z1 W1 X1 Y1 Z1 W1 X2 Y2 Z2 W2 X3 Y3 Z3 W3 X4 Y4 Z4 W4
+
+.subckt  demulti1b  S1=C1 S0=C0 IN=A4  X=X0 Y=Y0 Z=Z0 W=W0
+.subckt  demulti1b  S1=C1 S0=C0 IN=A3  X=X1 Y=Y1 Z=Z1 W=W1
+.subckt  demulti1b  S1=C1 S0=C0 IN=A2  X=X2 Y=Y2 Z=Z2 W=W2
+.subckt  demulti1b  S1=C1 S0=C0 IN=A1  X=X3 Y=Y3 Z=Z3 W=W3
+.subckt  demulti1b  S1=C1 S0=C0 IN=A0  X=X4 Y=Y4 Z=Z4 W=W4
+
+
+
+.search Demulti1b.blif
+.end
+#5 demulti1b in serie
+
+
