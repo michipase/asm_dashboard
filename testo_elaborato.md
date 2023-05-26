@@ -28,8 +28,7 @@ freccia-giù+invio da messaggio di riga 6 corrisponde alla visualizzazione del m
     5. Back-home: ON
     6. Check olio
 
-Se avviato in **modalità supervisor**, il programma dovrà visualizzare la riga 1 nel seguente modo: “Setting
-automobile (supervisor)”, e poter visualizzare anche le seguenti righe:
+Se avviato in **modalità supervisor**, il programma dovrà visualizzare la riga 1 nel seguente modo: “Setting automobile (supervisor)”, e poter visualizzare anche le seguenti righe:
     7. Frecce direzione
     8. Reset pressione gomme
 
