@@ -1,175 +1,219 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-// * TYPEDEF ======================================
-/**
- * define an enum to be able to use true and false as 0 and 1 inside the code
- */
 typedef enum { false, true } bool;
-/**
- * Item is the struct containing the fields required for the dashboard
- * - instr: the function code to call when this field is selected
- * - text: a 32 string which contains the menu item text
- * - value: a 32 char string containing the field value
- *  (note: this needs to be parsed differently for each menu item as they have different types)
- * - admin: a boolean flag that indicates if the field is accessible or not
- */
-typedef struct Item
+
+int max = 6;
+int cursor = 0;
+
+bool isAdmin;
+
+char date[10+1] = "15/06/2014\0";   // 1 - Data: 15/06/2014
+char time[5+1] = "15:32\0";         // 2 - Ora: 15:32
+bool door_lock;                 // 3 - Blocco automatico porte: ON
+bool back_home;                 // 4 - Back-home: ON
+bool oil_check;                 // 5 - Check olio
+int arrow = 3;                      // 6 * Frecce direzione
+                                // 7 * Reset pressione gomme
+
+bool IsAdmin(int argc, char *argv[])
 {
-    int instr;
-    char text[32];
-    char value[32];
-    bool admin;
-};
+    isAdmin = false;
 
-/**
- * Node is the structure containing the pointer to previous and next item in the circular list
- * it also contain a data field of type Item
- */
-typedef struct Node
-{
-    struct Item *data;
-    struct Node *prev;
-    struct Node *next;
-};
-
-// * GLOBAL variables =====================
-
-// arr is the default array of instructions
-// TODO place it in a config file
-struct Item arr[] = {
-    {0, "Data", "15/06/2014", false},
-    {1, "Ora", "15:32", false},
-    {2, "Blocco automatico porte", "ON", false},
-    {3, "Back-home", "ON", false},
-    {4, "Check olio", "", false},
-    {5, "Frecce direzione", "3", true},
-    {6, "Reset pressione gomme", "", true}};
-
-// * METHODS ===================================================0
-
-/**
- * Create a void node with the given Item data
- * @param data - the Item instance to assign to the Node
- * @return a Node element
- */
-struct Node *create_node(struct Item *data)
-{
-    struct Node *new_node = malloc(sizeof(struct Node));
-
-    new_node->data = data;
-    new_node->prev = NULL;
-    new_node->next = NULL;
-
-    return new_node;
-}
-
-/**
- * Create a circular linked list based on Item array
- * @param array The array of Item to convert in a circular linked list
- * @param size The size of array
- * @return The first node of the newly created circular linked list
- */
-struct Node *create_list(struct Item *array, int size)
-{
-    struct Node *head = create_node(&array[0]);
-    struct Node *prev = head;
-
-    for (int i = 1; i < size; i++)
-    {
-        struct Node *curr = create_node(&array[i]);
-        prev->next = curr;
-        curr->prev = prev;
-        prev = curr;
-    }
-
-    prev->next = head;
-    head->prev = prev;
-    return head;
-}
-
-/**
- * Get the next element in the circular linked list
- * @param current The current Node
- * @return The next node in the circular linked list
- */
-struct Node *next_node(struct Node *current)
-{
-    return current->next;
-}
-/**
- * Get the previous element in the circular linked list
- * @param current The current Node
- * @return The previous node in the circular linked list
- */
-struct Node *prev_node(struct Node *current)
-{
-    return current->prev;
-}
-/**
- * Sets a different Item value to the current Node->data->value
- * @param node The current Node
- * @param new_value the string value to assign to the node
- * @return Nothing
- */
-void change_value(struct Node *node, const char *new_value)
-{
-    strncpy(node->data->value, new_value, sizeof(node->data->value - 1));
-    node->data->value[sizeof(node->data->value) - 1] = '\0';
-}
-/**
- * This function filter an array of items by non-admin values
- * @param array The array of items that will be filtered
- * @param size The size of the initial array
- * @param filtered_size_ptr The pointer to store the filtered array size
- * @return The array filtered by admin == false
- */
-struct Item *not_admin_filtered_items(struct Item *array, int size, int *filtered_size_ptr)
-{
-    struct Item *filtered_array = malloc(size * sizeof(struct Item));
-    int filtered_size = 0;
-
-    for (int i = 0; i < size; i++)
-    {
-        if (array[i].admin == false)
-        {
-            filtered_array[filtered_size++] = array[i];
-        }
-    }
-    *filtered_size_ptr = filtered_size;
-    return filtered_array;
-}
-
-int main(int argc, char *argv[])
-{
-    int supervisor = false;
-    struct Item *array = arr;
-
-    // setups
-    int size = sizeof(array) / sizeof(array[0]);
-    int filtered_size;
-
+    // supervisor ?
     for (unsigned int i = 0; i < argc; i++)
-    {
         if (strcmp(argv[i], "2244") == 0)
-        {
-            supervisor = true;
-            array = not_admin_filtered_items(array, size, &filtered_size);
-            size = sizeof(array) / sizeof(array[0]);
-        }
+            return true;
+    return false;
+}
+
+char GetArrowKey()
+{
+    char a, b, c, trash;
+    scanf(" %c%c%c", &a, &b, &c);
+    scanf("%c", &trash);
+    return c;
+}
+
+void HandleSubmenuUP()
+{
+    switch (cursor)
+    {
+    // case 1: break;
+    // case 2: break;
+    case 3:
+        door_lock = !door_lock;
+        break;
+    case 4:
+        back_home = !back_home;
+        break;
+    case 6:
+        arrow += arrow >= 5 ? 0 : 1;
+        break;
+    default:
+        break;
     }
+}
 
-    /** // TODO LIST
-     *  - show menu title based on admin
-     *  - get user input
-     *  - on top go to prev
-     *  - on botton go to next
-     *  - on right call the function relative to current node
-     *  - create function for each item of array
-     *      > each must have the correct submenu of options to assign to the new value (call change_value)
-     */ 
-    
+void HandleSubmenuDOWN()
+{
+    switch (cursor)
+    {
+    case 3:
+        door_lock = !door_lock;
+        break;
+    case 4:
+        back_home = !back_home;
+        break;
+    case 6:
+        arrow -= arrow == 2 ? 0 : 1;
+        break;
+    default:
+        break;
+    }
+}
 
-    return 0;
+void PrintMenu()
+{
+    switch (cursor)
+    {
+    case 0:
+    {
+        if (isAdmin)
+            printf("Setting automobile (supervisor)\n");
+        else
+            printf("Setting automobile\n");
+    };
+    break;
+    case 1:
+        printf("Data: %s", date);
+        break;
+    case 2:
+        printf("Ora: %s", time);
+        break;
+    case 3:
+        printf("Blocco automatico porte: %s", door_lock ? "ON" : "OFF");
+        break;
+    case 4:
+        printf("Back-home: %s", back_home ? "ON" : "OFF");
+        break;
+    case 5:
+        printf("Check olio");
+        break;
+    case 6:
+        printf("Frecce direzione: %d", arrow);
+        break;
+    case 7:
+        printf("Reset pressione gomme");
+        break;
+    }
+}
+
+void Prev()
+{
+    if (cursor == 0)
+        cursor = max - 1;
+    else
+        cursor--;
+}
+void Next()
+{
+    if (cursor == max)
+        cursor = 0;
+    else
+        cursor++;
+}
+
+void OpenMenu()
+{
+    while (true)
+    {
+
+        // print current value or do nothing
+        switch (cursor)
+        {
+        case 0:
+            return;
+        case 1:
+            printf("%s", date);
+            break;
+        case 2:
+            printf("%s", time);
+            break;
+        case 3:
+            printf("%s", door_lock == true ? "ON" : "OFF");
+            break;
+        case 4:
+            printf("%s", back_home == true ? "ON" : "OFF");
+            break;
+        case 5:
+            printf("ok");
+            return;
+        case 6:
+            printf("%d", arrow);
+            break;
+        case 7:
+            printf("pressione gomme resettata");
+            return;
+
+        default:
+            return;
+        }
+
+        // except a value
+        char action;
+        action = GetArrowKey();
+        if (action == 'A' || action == 'a')
+        {
+            HandleSubmenuUP();
+        };
+        // Check for arrow character (down)
+        if (action == 'B' || action == 'b')
+        {
+            HandleSubmenuDOWN();
+        };
+        // Check for arrow character (left)
+        if (action == 'D' || action == 'd')
+        {
+            return;
+        };
+    };
+}
+
+void main(int argc, char *argv[])
+{
+    char action;
+
+    // max = IsAdmin(argc, argv) ? 7 : 5;
+    max = 7;
+
+    while (true)
+    {
+        PrintMenu();
+
+        action = GetArrowKey();
+        // Check for arrow character (up)
+        if (action == 'A' || action == 'a')
+        {
+            Prev();
+            continue;
+        };
+        // Check for arrow character (down)
+        if (action == 'B' || action == 'b')
+        {
+            Next();
+            continue;
+        };
+        // Check for arrow character (right)
+        if (action == 'C' || action == 'c')
+        {
+            OpenMenu();
+            continue;
+        };
+        // Check for arrow character (left)
+        if (action == 'D' || action == 'd')
+        {
+            continue;
+        };
+    }
 }
