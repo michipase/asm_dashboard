@@ -77,35 +77,35 @@ void PrintMenu()
 {
     switch (cursor)
     {
-    case 0:
-    {
-        if (isAdmin)
-            printf("Setting automobile (supervisor)\n");
-        else
-            printf("Setting automobile\n");
-    };
-    break;
-    case 1:
-        printf("Data: %s", date);
-        break;
-    case 2:
-        printf("Ora: %s", time);
-        break;
-    case 3:
-        printf("Blocco automatico porte: %s", door_lock ? "ON" : "OFF");
-        break;
-    case 4:
-        printf("Back-home: %s", back_home ? "ON" : "OFF");
-        break;
-    case 5:
-        printf("Check olio");
-        break;
-    case 6:
-        printf("Frecce direzione: %d", arrow);
-        break;
-    case 7:
-        printf("Reset pressione gomme");
-        break;
+        case 0:
+            {
+                if (isAdmin)
+                    printf("Setting automobile (supervisor)\n");
+                else
+                    printf("Setting automobile\n");
+            };
+            break;
+        case 1:
+            printf("Data: %s", date);
+            break;
+        case 2:
+            printf("Ora: %s", time);
+            break;
+        case 3:
+            printf("Blocco automatico porte: %s", door_lock ? "ON" : "OFF");
+            break;
+        case 4:
+            printf("Back-home: %s", back_home ? "ON" : "OFF");
+            break;
+        case 5:
+            printf("Check olio");
+            break;
+        case 6:
+            printf("Frecce direzione: %d", arrow);
+            break;
+        case 7:
+            printf("Reset pressione gomme");
+            break;
     }
 }
 
@@ -124,7 +124,7 @@ void Next()
         cursor++;
 }
 
-void OpenMenu()
+void OpenSubMenu()
 {
     while (true)
     {
@@ -184,7 +184,7 @@ void main(int argc, char *argv[])
 {
     char action;
 
-    // max = IsAdmin(argc, argv) ? 7 : 5;
+    // max = IsAdmin(argc, argv) ? 7 : 5; // TODO
     max = 7;
 
     while (true)
@@ -207,7 +207,7 @@ void main(int argc, char *argv[])
         // Check for arrow character (right)
         if (action == 'C' || action == 'c')
         {
-            OpenMenu();
+            OpenSubMenu();
             continue;
         };
         // Check for arrow character (left)
