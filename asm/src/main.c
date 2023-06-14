@@ -10,12 +10,17 @@ bool isAdmin;
 
 char date[10+1] = "15/06/2014\0";   // 1 - Data: 15/06/2014
 char time[5+1] = "15:32\0";         // 2 - Ora: 15:32
-bool door_lock;                 // 3 - Blocco automatico porte: ON
-bool back_home;                 // 4 - Back-home: ON
-bool oil_check;                 // 5 - Check olio
+bool door_lock;                     // 3 - Blocco automatico porte: ON
+bool back_home;                     // 4 - Back-home: ON
+bool oil_check;                     // 5 - Check olio
 int arrow = 3;                      // 6 * Frecce direzione
-                                // 7 * Reset pressione gomme
+                                    // 7 * Reset pressione gomme
 
+/**
+ * This function search trough params the password for user admin (2244)
+ * @param argc lenght of params array
+ * @param argv params array reference
+*/
 bool IsAdmin(int argc, char *argv[])
 {
     isAdmin = false;
@@ -27,6 +32,10 @@ bool IsAdmin(int argc, char *argv[])
     return false;
 }
 
+/**
+ * GetArrowKey uses scanf to read the set of charachter corresponding to an arrow key,
+ * clear the buffer and returns the single character corresponding to the arrow 
+*/
 char GetArrowKey()
 {
     char a, b, c, trash;
@@ -73,6 +82,10 @@ void HandleSubmenuDOWN()
     }
 }
 
+/**
+ * PrintMenu prints the title and the value of the current menu item
+ * based on cursor
+*/
 void PrintMenu()
 {
     switch (cursor)
@@ -109,6 +122,9 @@ void PrintMenu()
     }
 }
 
+/**
+ * Prev decrement the menu cursor
+*/
 void Prev()
 {
     if (cursor == 0)
@@ -116,6 +132,9 @@ void Prev()
     else
         cursor--;
 }
+/**
+ * Next increment the menu cursor
+*/
 void Next()
 {
     if (cursor == max)
@@ -128,7 +147,6 @@ void OpenSubMenu()
 {
     while (true)
     {
-
         // print current value or do nothing
         switch (cursor)
         {
@@ -160,32 +178,33 @@ void OpenSubMenu()
             return;
         }
 
-        // except a value
+        // accept a value
         char action;
         action = GetArrowKey();
-        if (action == 'A' || action == 'a')
+
+        if (action == 'A' || action == 'a') // UP
         {
             HandleSubmenuUP();
         };
-        // Check for arrow character (down)
-        if (action == 'B' || action == 'b')
+        if (action == 'B' || action == 'b') // DOWN
         {
             HandleSubmenuDOWN();
         };
-        // Check for arrow character (left)
-        if (action == 'D' || action == 'd')
+        if (action == 'D' || action == 'd') // LEFT
         {
             return;
         };
     };
 }
 
+/**
+ * Main function
+*/
 void main(int argc, char *argv[])
 {
     char action;
 
-    // max = IsAdmin(argc, argv) ? 7 : 5; // TODO
-    max = 7;
+    max = IsAdmin(argc, argv) ? 7 : 5;
 
     while (true)
     {
