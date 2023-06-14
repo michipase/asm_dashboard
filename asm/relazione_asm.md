@@ -40,10 +40,10 @@ Per il contesto dell'elaborato sarà anche necessario confermare tutte le selezi
 ![flowchart](./assets/flowchart.jpg)
 Nel diagramma si presenta il flusso di esecuzione del codice C ed asm.
 Le aree colorate, rappresentano macro funzionalità, implementate in C in funzioni separate, ed in asm in "linked files" per pulizia ed ordine del codice.
-1. giallo : la funzione si occupa di leggere gli argomenti passati all'esecuzione del programma, se vi è presente la password per il superuser, allora setta il valore massimo del sottomenu ad 8 (tutti gli elementi del sottomenu), altrimenti lo setta a 6 (esclude i due ultimi sottomenu riservati all'admin).
-2. verde: stampa il nome del sottomenu, opera come uno switch case
-3. grigio: aspetta in input le frecce di direzione seguite da un invio, ritornando il char corrispondente.
-4. blu: si occupa di gestire l'input su e giù all'interno del menu, gestendo il caso della lista circolare (impostando il cursore a 0 se richiede l'elemento dopo l'ultimo od a al valore max se richiede il valore prima di 0)
-5. azzurro: funzione che gestisce il sottomenù, stampa a video il corrente valore del sottomenu, richiede un input, effettua uno switch di tale input e richiama le funzioni di incremento e decremento del valore se la voce del menù lo richiede
-6. rosso: gestisce l'incremento del valore del sottomenu. A seconda del cursore del menu, decide se cambiare da ON ad OFF, se aumentare il valore delle frecce se minore di 5
-7. arancio: gestisce il decremento del valore del sottomenu. A seconda del cursore del menu, decide se cambiare da ON ad OFF, se diminuire il valore delle frecce fino ad un minimo di 2
+1. **giallo** : la funzione si occupa di leggere gli argomenti passati all'esecuzione del programma, se vi è presente la password per il superuser, allora setta il valore massimo del sottomenu ad 8 (tutti gli elementi del sottomenu), altrimenti lo setta a 6 (esclude i due ultimi sottomenu riservati all'admin).
+2. **verde**: stampa il nome del sottomenu, opera come uno switch case
+3. **grigio**: aspetta in input le frecce di direzione seguite da un invio, ritornando il char corrispondente.
+4. **blu**: si occupa di gestire l'input su e giù all'interno del menu, gestendo il caso della lista circolare (impostando il cursore a 0 se richiede l'elemento dopo l'ultimo od a al valore max se richiede il valore prima di 0)
+5. **azzurro**: funzione che gestisce il sottomenù, stampa a video il corrente valore del sottomenu, richiede un input, effettua uno switch di tale input e richiama le funzioni di incremento e decremento del valore se la voce del menù lo richiede
+6. **rosso**: gestisce l'incremento del valore del sottomenu. A seconda del cursore del menu, decide se cambiare da ON ad OFF, se aumentare il valore delle frecce se minore di 5
+7. **arancio**: gestisce il decremento del valore del sottomenu. A seconda del cursore del menu, decide se cambiare da ON ad OFF, se diminuire il valore delle frecce fino ad un minimo di 2
