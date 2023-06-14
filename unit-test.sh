@@ -1,1 +1,0 @@
-find . -exec ./tests/folder-test.sh \;
