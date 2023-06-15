@@ -1,0 +1,17 @@
+.model cmax
+.inputs A4 A3 A2 A1 A0
+.outputs O4 O3 O2 O1 O0
+.names A4 O4
+1 1
+.names A3 O3
+1 1
+.names k A2 O2
+01 1
+.names k A1 O1
+01 1
+.names k A0 O0
+01 1
+.names A4 A3 k
+11 1
+.end
+

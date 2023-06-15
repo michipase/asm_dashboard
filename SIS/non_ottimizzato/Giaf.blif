@@ -1,0 +1,17 @@
+.model giaf #going in and full
+.inputs  Gi A B C Af Bf Cf
+.outputs O
+
+.names Gi A Af x
+111 1
+.names Gi B Bf y
+111 1
+.names Gi C Cf z
+111 1
+
+.names x y z O
+1-- 1
+-1- 1 
+--1 1
+.end
+

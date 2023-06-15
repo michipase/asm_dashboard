@@ -1,0 +1,7 @@
+.model awc
+.inputs S1 S0 MS
+.outputs O
+.names MS S1 S0 O
+100 1
+.end
+

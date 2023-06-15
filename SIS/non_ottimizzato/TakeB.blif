@@ -1,0 +1,51 @@
+.model takeB
+.inputs  A4 A3 A2 A1 A0 Cs Cck Cpm 
+.outputs O4 O3 O2 O1 O0 Bp
+
+.subckt one  O=u
+.subckt zero O=z
+
+ 
+
+
+.subckt Registro5b A4=R4 A3=R3 A2=R2 A1=R1 A0=R0 O4=r4 O3=r3 O2=r2 O1=r1 O0=r0	
+
+.subckt uguale31 A4=r4 A3=r3 A2=r2 A1=r1 A0=r0 O=Bp
+#calcola+1
+.subckt p15b    A4=r4 A3=r3 A2=r2 A1=r1 A0=r0 O4=pf4 O3=pf3 O2=pf2 O1=pf1 O0=pf0 
+.subckt uguale31 A4=pf4 A3=pf3 A2=pf2 A1=pf1 A0=pf0 O=ut
+.subckt multi5  A4=u A3=u A2=u A1=u A0=u B4=pf4 B3=pf3 B2=pf2 B1=pf1 B0=pf0 S=ut O4=p4 O3=p3 O2=p2 O1=p1 O0=p0
+
+#calcola-1
+.subckt minus1 A4=r4 A3=r3 A2=r2 A1=r1 A0=r0 O4=m4 O3=m3 O2=m2 O1=m1 O0=m0
+.subckt uguale31 A4=m4 A3=m3 A2=m2 A1=m1 A0=m0 O=cz
+.subckt multi5 A4=z A3=z A2=z A1=z A0=z B4=m4 B3=m3 B2=m2 B1=m1 B0=m0 S=cz O4=M4 O3=M3 O2=M2 O1=M1 O0=M0
+
+#chose between privius +/- (1 somma)
+.subckt multi5 A4=p4 A3=p3 A2=p2 A1=p1 A0=p0 B4=M4 B3=M3 B2=M2 B1=M1 B0=M0 S=Cpm O4=pm4 O3=pm3 O2=pm2 O1=pm1 O0=pm0
+
+#chose between privius change/keep (1 cambia)
+.subckt multi5 A4=pm4 A3=pm3 A2=pm2 A1=pm1 A0=pm0 B4=r4 B3=r3 B2=r2 B1=r1 B0=r0 S=Cck O4=c4 O3=c3 O2=c2 O1=c1 O0=c0
+
+#chose between previus results and inputs (0 previus 1 imputs)
+.subckt multi5  A4=A4 A3=A3 A2=A2 A1=A1 A0=A0 B4=c4 B3=c3 B2=c2 B1=c1 B0=c0 S=Cs O4=R4 O3=R3 O2=R2 O1=R1 O0=R0
+
+.subckt stampa A=R4 O=O4
+.subckt stampa A=R3 O=O3
+.subckt stampa A=R2 O=O2
+.subckt stampa A=R1 O=O1
+.subckt stampa A=R0 O=O0
+
+.search reg5b.blif
+.search Plus1.blif
+.search Minus1.blif
+.search Multi5b.blif
+.search stampa.blif
+.search one.blif
+.search zero.blif
+.search Uguale0.blif
+.search Uguale31.blif
+
+
+.end
+

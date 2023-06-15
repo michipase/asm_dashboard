@@ -3,38 +3,34 @@
 # ////////////////////////////////
 # per compilare
 # as --32 -o nomefile.o nomefile.s;ld -m elf_i386 -o nomefile nomefile.o;./nomefile 2224
-# 
-# manca una funzione per controllare che nel primo argomento (2224) ci sia effettivamente un numero (va in segmentation altrimenti) 
-# (si potrebbe anche non fare data la natura del progetto ma siccome mi sembra una scusa la faro )
-# 
-# P.S nelle scelte progettuali dovremmo dire che per l'uscita dal sottomenu noi abbiamo scielto di usare "<" e invio invece che solo invio 
-# 
+# oppure
+# make build
 # /////////////////////////////////
 # serie di stinghe da stampare
 
 settings:       .asciz "1. Setting automobile: "
 date:           .asciz "2. Data: "
 hours:          .asciz "3. Ora: "
-doorlock:       .asciz "4. Blocco automatico porte: "
-backhome:       .asciz "5. Back-home: "
-oilcheck:       .asciz "6. Check olio "
-blinkingarrow:  .asciz "7. Frecce direzione "
-pressurereset:  .asciz "8. Reset pressione gomme "
+doorLock:       .asciz "4. Blocco automatico porte: "
+backHome:       .asciz "5. Back-home: "
+oilCheck:       .asciz "6. Check olio "
+ArrowBlinks:    .asciz "7. Frecce direzione "
+pressureReset:  .asciz "8. Reset pressione gomme "
 
 # serie di valori 
 
-dateVAL:            .asciz "15/06/2014"
-hoursVAL:           .asciz "15:32"
-doorlockVAL:        .byte 1
-backhomeVAL:        .long 1
-oilcheckOK:         .asciz "ok "
-NumberOfBlink:      .asciz "3"
-pressureresetOK:    .asciz "pressione gomme resettata"
+date_VAL:            .asciz "15/06/2014"
+hours_VAL:           .asciz "15:32"
+doorLock_VAL:        .byte 1
+backHome_VAL:        .long 1
+oilCheck_VAL:        .asciz "ok "
+arrowBlinks_VAL:     .asciz "3"
+pressureReset_VAL:   .asciz "pressione gomme resettata"
 
-Max:    .long 8
+MAX:    .long 8
 
 # costanti fi vario tipo  
-SUP_code:   .asciz "2224"
+ADMIN_CODE:   .asciz "2224"
 ON:         .asciz "ON "
 OFF:        .asciz "OFF"
 buffer:     .space 3
@@ -49,46 +45,46 @@ _start:
     popl %ecx            
     popl %ecx
     cmp $1, %ecx
-    jl setmax
+    jl setMAX
 
     movl (%ecx), %eax
-    cmpl SUP_code, %eax     # Comparo con 2224
-    je Printmenu            # se sono uguali lascio normali
+    cmpl ADMIN_CODE, %eax     # Comparo con 2224
+    je PrintMenu            # se sono uguali lascio normali
     
-    setmax:
-    movl $6, Max            # altrimenti setto max a 6
+    setMAX:
+    movl $6, MAX            # altrimenti setto MAX a 6
 
-    Printmenu:              # analogo alla funzione Printmenu
+    PrintMenu:              # analogo alla funzione PrintMenu
 
     movl CURSORE, %eax      # analogo allo switch case le varie etichette Print_stuff ==> Print("stuff");
 
     cmp $1, %eax
-    je Print_settings
+    je PrintSettings
 
     cmp $2, %eax
-    je Print_date
+    je PrintDate
 
     cmp $3, %eax
-    je Print_hours
+    je PrintHours
 
     cmp $4, %eax
-    je Print_doorlock
+    je PrintDoorLock
 
     cmp $5, %eax
-    je Print_backhome
+    je PrintBackHome
 
     cmp $6, %eax
-    je Print_oilcheck
+    je PrintOilCheck
 
     cmp $7, %eax
-    je Print_blinkingarrow
+    je PrintArrowBlinks
 
     cmp $8, %eax
-    je Print_pressurereset
+    je PrintPressureReset
 
-    jmp CURSORUPGRADE
+    jmp CURSOR_UPDATE
 
-CURSORUPGRADE:              # analogo alla sezione di codice dopo il Printmenu
+CURSOR_UPDATE:              # analogo alla sezione di codice dopo il PrintMenu
 
     call GetArrowKey
 
@@ -101,24 +97,24 @@ CURSORUPGRADE:              # analogo alla sezione di codice dopo il Printmenu
     cmp $3, %eax
     je OpenMenu             # >  si avvia veso il sottomenu
 
-    jmp Printmenu           # se non ha ricevuto una freccia ritorna a CURSOREUPGRADE analogo al while
+    jmp PrintMenu           # se non ha ricevuto una freccia ritorna a CURSOREUPGRADE analogo al while
 
-# fine del main
+# End del main
 
 
 # etichette analoghi a printf("....")#
 
-Print_settings:
+PrintSettings:
     mov $4, %eax
     mov $1, %ebx
     leal settings, %ecx
     mov $23,%edx
     int $0x80
 
-    call print_newline  
-    jmp CURSORUPGRADE
+    call PrintNewline  
+    jmp CURSOR_UPDATE
 
-Print_date:
+PrintDate:
     mov $4, %eax
     mov $1, %ebx
     leal date, %ecx
@@ -127,14 +123,14 @@ Print_date:
 
     mov $4, %eax
     mov $1, %ebx
-    leal dateVAL, %ecx
+    leal date_VAL, %ecx
     mov $10,%edx
     int $0x80
 
-    call print_newline
-    jmp CURSORUPGRADE
+    call PrintNewline
+    jmp CURSOR_UPDATE
 
-Print_hours:
+PrintHours:
     mov $4, %eax
     mov $1, %ebx
     leal hours, %ecx
@@ -143,100 +139,100 @@ Print_hours:
 
     mov $4, %eax
     mov $1, %ebx
-    leal hoursVAL, %ecx
+    leal hours_VAL, %ecx
     mov $5,%edx
     int $0x80
 
-    call print_newline
-    jmp CURSORUPGRADE
+    call PrintNewline
+    jmp CURSOR_UPDATE
 
-Print_doorlock:
+PrintDoorLock:
     mov $4, %eax
     mov $1, %ebx
-    leal doorlock, %ecx
+    leal doorLock, %ecx
     mov $28,%edx
     int $0x80
 
-    call print_newline
-    jmp CURSORUPGRADE
+    call PrintNewline
+    jmp CURSOR_UPDATE
 
-Print_backhome:
+PrintBackHome:
     mov $4, %eax
     mov $1, %ebx
-    leal backhome, %ecx
+    leal backHome, %ecx
     mov $14,%edx
     int $0x80
 
-    call print_newline
-    jmp CURSORUPGRADE
+    call PrintNewline
+    jmp CURSOR_UPDATE
 
-Print_oilcheck:
+PrintOilCheck:
     mov $4, %eax
     mov $1, %ebx
-    leal oilcheck, %ecx
+    leal oilCheck, %ecx
     mov $14,%edx
     int $0x80
 
-    call print_newline
-    jmp CURSORUPGRADE
+    call PrintNewline
+    jmp CURSOR_UPDATE
 
-Print_blinkingarrow:
+PrintArrowBlinks:
     mov $4, %eax
     mov $1, %ebx
-    leal blinkingarrow, %ecx
+    leal ArrowBlinks, %ecx
     mov $20,%edx
     int $0x80
 
-    call print_newline
-    jmp CURSORUPGRADE
+    call PrintNewline
+    jmp CURSOR_UPDATE
 
-Print_pressurereset:
+PrintPressureReset:
     mov $4, %eax
     mov $1, %ebx
-    leal pressurereset, %ecx
+    leal pressureReset, %ecx
     mov $25,%edx
     int $0x80
 
-    call print_newline
-    jmp CURSORUPGRADE
+    call PrintNewline
+    jmp CURSOR_UPDATE
 
 
 # analoghi alle funzioni Prev e Next
 Prev:           # riduce di uno se uguale a 1 lo porta al massimo  
     mov CURSORE, %eax
     cmp $1,%eax
-    je CURSOREmin
+    je CURSORE_min
     sub $1,%eax
     movl  %eax, CURSORE
-    jmp Prevfin
+    jmp Prev_fin
 
-  CURSOREmin:
-    movl Max,%eax
+  CURSORE_min:
+    movl MAX,%eax
     movl %eax,CURSORE
-    jmp Prevfin
+    jmp Prev_fin
 
-  Prevfin:
-    jmp CURSORUPGRADE
+  Prev_fin:
+    jmp CURSOR_UPDATE
 
 
 Next:           # aumenta di uno se uguale al massimo lo mette a 1
     mov CURSORE,%eax
-    cmp Max, %eax
-    je CURSOREmax
+    cmp MAX, %eax
+    je CURSOREMAX
     addl $1, CURSORE
-    jmp Nextfin
+    jmp Next_fin
 
-  CURSOREmax:
+  CURSOREMAX:
     movl $1,CURSORE
-    jmp Nextfin
+    jmp Next_fin
 
-  Nextfin:
-    jmp CURSORUPGRADE
+  Next_fin:
+    jmp CURSOR_UPDATE
 
 
 # funzioni
 
-print_newline: # analogo a printf("\n")#
+PrintNewline: # analogo a printf("\n")#
     mov $4, %eax
     mov $1, %ebx
     leal newline, %ecx
@@ -254,80 +250,80 @@ GetArrowKey:        # analogo alla funzione GetArrowKey solo che invece di passa
 
     mov $0x1b, %eax          # Primo carattere: 0x1B (^)
     cmpb %al, (%ecx)
-    jne not_arrow
+    jne NotArrow
 
     mov $'[', %eax           # Secondo carattere: '['
     cmpb %al, 1(%ecx)
-    jne not_arrow
+    jne NotArrow
 
     mov $'D', %eax            # Terzo carattere: 'D' (freccia sinistra)
     cmpb %al, 2(%ecx)
-    je left_arrow
+    je LeftArrow
 
     mov $'C', %eax            # Terzo carattere: 'C' (freccia destra)
     cmpb %al, 2(%ecx)
-    je right_arrow
+    je RightArrow
 
     mov $'A', %eax            # Terzo carattere: 'A' (freccia su)
     cmpb %al, 2(%ecx)
-    je up_arrow
+    je UpArrow
 
     mov $'B', %eax            # Terzo carattere: 'B' (freccia giù)
     cmpb %al, 2(%ecx)
-    je down_arrow
+    je DownArrow
 
-  fine:             # torna dove è stata richiamata
+  End:             # torna dove è stata richiamata
     ret
 
-  not_arrow:        
+  NotArrow:        
     mov $0, %eax
-    jmp fine
+    jmp End
 
-  left_arrow:       
+  LeftArrow:       
     mov $4, %eax
-    jmp fine
+    jmp End
 
-  right_arrow:      
+  RightArrow:      
     mov $3, %eax
-    jmp fine
+    jmp End
 
-  up_arrow:
+  UpArrow:
     mov $1, %eax
-    jmp fine
+    jmp End
 
-  down_arrow:
+  DownArrow:
     mov $2, %eax
-    jmp fine
+    jmp End
 
 
 OpenMenu:     # stampa  i sottomenu analogo a OpenMenu
     movl CURSORE, %eax
 
     cmp $1, %eax
-    je OpenMenuFine
+    je OpenMenuEnd
 
     cmp $2, %eax
-    je Print_dateVAL
+    je PrintDate_VAL
 
     cmp $3, %eax
-    je Print_hoursVAL
+    je PrintHours_VAL
 
     cmp $4, %eax
-    je Print_doorlockVAL
+    je PrintDoorLock_VAL
 
     cmp $5, %eax
-    je Print_backhomeVAL
+    je PrintBackHome_VAL
 
     cmp $6, %eax
-    je Print_oilcheckOK
+    je PrintOilCheck_VAL
 
     cmp $7, %eax
-    je Print_blinkingarrowVAL
+    je PrintArrowBlinks_VAL
 
     cmp $8, %eax
-    je Print_pressureresetOK
+    je PrintPressureReset_VAL
 
-  OpenMenuFine:             # se non trova una freccia su/giu/sx resta in loop
+  OpenMenuEnd:             # se non trova una freccia su/giu/sx resta in loop
 
     call GetArrowKey
 
@@ -338,37 +334,37 @@ OpenMenu:     # stampa  i sottomenu analogo a OpenMenu
     je HandleSubmenuDOWN    # sotto menu - analogo a HandleSubmenuDOWN
 
     cmp $4, %eax
-    je CURSORUPGRADE        # esce dal sottomenu
+    je CURSOR_UPDATE        # esce dal sottomenu
 
-    jmp OpenMenuFine
+    jmp OpenMenuEnd
 
 
-Print_dateVAL:
+PrintDate_VAL:
 
     mov $4, %eax
     mov $1, %ebx
-    leal dateVAL, %ecx
+    leal date_VAL, %ecx
     mov $10,%edx
     int $0x80
 
-    call print_newline
-    jmp OpenMenuFine
+    call PrintNewline
+    jmp OpenMenuEnd
 
-Print_hoursVAL:
+PrintHours_VAL:
 
     mov $4, %eax
     mov $1, %ebx
-    leal hoursVAL, %ecx
+    leal hours_VAL, %ecx
     mov $5,%edx
     int $0x80
 
-    call print_newline
-    jmp OpenMenuFine
+    call PrintNewline
+    jmp OpenMenuEnd
 
-Print_doorlockVAL:  # potrebbe essere ottimizata (non di velocita ma di righe di testo) 
+PrintDoorLock_VAL:  # potrebbe essere ottimizata (non di velocita ma di righe di testo) 
 
-    cmpb $1, doorlockVAL    # controlla che il valore di dorlock sia 1 (0=OFF) 
-    je printdoorlockVAL_ON
+    cmpb $1, doorLock_VAL    # controlla che il valore di dorlock sia 1 (0=OFF) 
+    je printdoorLock_VAL_ON
    
     mov  $4, %eax
     mov  $1, %ebx
@@ -376,9 +372,9 @@ Print_doorlockVAL:  # potrebbe essere ottimizata (non di velocita ma di righe di
     mov  $3,%edx
     int  $0x80
    
-    jmp  doorlockVALfin
+    jmp  doorLock_VALfin
 
-    printdoorlockVAL_ON:    # altrimenti 
+    printdoorLock_VAL_ON:    # altrimenti 
 
     mov $4, %eax
     mov $1, %ebx
@@ -386,22 +382,22 @@ Print_doorlockVAL:  # potrebbe essere ottimizata (non di velocita ma di righe di
     mov $3,%edx
     int $0x80
 
-doorlockVALfin:
-    call print_newline
-    jmp OpenMenuFine
+doorLock_VALfin:
+    call PrintNewline
+    jmp OpenMenuEnd
 
-Print_backhomeVAL:
+PrintBackHome_VAL:
 
-    cmpb $1, backhomeVAL    # controlla che il valore di backhome sia 0 (0=OFF) 
-    je printbackhomeVAL_ON
+    cmpb $1, backHome_VAL    # controlla che il valore di backHome sia 0 (0=OFF) 
+    je PrintBackHome_VAL_ON
     mov  $4, %eax
     mov  $1, %ebx
     leal OFF, %ecx # stampa OFF
     mov  $3,%edx
     int  $0x80
 
-    jmp  backhomeVALfin
-printbackhomeVAL_ON:    # altrimenti 
+    jmp  backHome_VALfin
+PrintBackHome_VAL_ON:    # altrimenti 
 
     mov $4, %eax
     mov $1, %ebx
@@ -409,66 +405,66 @@ printbackhomeVAL_ON:    # altrimenti
     mov $3,%edx
     int $0x80
 
-backhomeVALfin:
-    call print_newline
-    jmp OpenMenuFine
+backHome_VALfin:
+    call PrintNewline
+    jmp OpenMenuEnd
 
-Print_oilcheckOK:
+PrintOilCheck_VAL:
 
     mov $4, %eax
     mov $1, %ebx
-    leal oilcheckOK, %ecx
+    leal oilCheck_VAL, %ecx
     mov $3,%edx
     int $0x80
 
-    call print_newline
-    jmp OpenMenuFine
+    call PrintNewline
+    jmp OpenMenuEnd
 
-Print_blinkingarrowVAL:
+PrintArrowBlinks_VAL:
 
     mov $4, %eax
     mov $1, %ebx
-    leal NumberOfBlink, %ecx
+    leal arrowBlinks_VAL, %ecx
     mov $1,%edx
     int $0x80
 
-    call print_newline
-    jmp OpenMenuFine
+    call PrintNewline
+    jmp OpenMenuEnd
 
-Print_pressureresetOK:
+PrintPressureReset_VAL:
 
     mov $4, %eax
     mov $1, %ebx
-    leal pressureresetOK, %ecx
+    leal pressureReset_VAL, %ecx
     mov $25,%edx
     int $0x80
 
-    call print_newline
-    jmp OpenMenuFine
+    call PrintNewline
+    jmp OpenMenuEnd
 
 HandleSubmenuUP: 
 
     movl CURSORE, %eax
     
     cmp $4, %eax    # un semplice scambio della variabile dorlockVAL
-    je DoorlockVAL_flip
+    je Flip_doorLock_VAL
     
-    cmp $5, %eax     # un semplice scambio della variabile backhomeVAL
-    je BackhomeVAL_flip
+    cmp $5, %eax     # un semplice scambio della variabile backHome_VAL
+    je Flip_backHome_VAL
     
     cmp $7, %eax
-    je more_arrow    # aggiunge uno al numero di freccie fino ad un massimo di 5 (le freccie sono considerate come un ascii)
+    je ArrowBlink_Increment    # aggiunge uno al numero di freccie fino ad un massimo di 5 (le freccie sono considerate come un ascii)
     
     jmp OpenMenu    # defoult break
 
-more_arrow: 
-    movl $NumberOfBlink, %edi     # Carica l'indirizzo della stringa NumberOfBlink in %edi
+ArrowBlink_Increment: 
+    movl $arrowBlinks_VAL, %edi     # Carica l'indirizzo della stringa arrowBlinks_VAL in %edi
     movb (%edi), %al              # Carica il carattere ASCII corrispondente al primo elemento della stringa in %al
 
     cmpb $'5', %al                # Confronta il valore con '5'
     jge SkipIncrement             # Salta all'etichetta SkipIncrement se è maggiore o uguale a '5'
     addb $1, %al                  # Incrementa il valore del carattere
-    movb %al, (%edi)              # Salva il nuovo valore nella stringa NumberOfBlink
+    movb %al, (%edi)              # Salva il nuovo valore nella stringa arrowBlinks_VAL
     
     SkipIncrement:
     jmp OpenMenu                 # Torna a OpenMenu
@@ -478,39 +474,39 @@ HandleSubmenuDOWN:
     movl CURSORE, %eax
     
     cmp $4, %eax    # un semplice scambio della variabile dorlockVAL
-    je DoorlockVAL_flip
+    je Flip_doorLock_VAL
     
-    cmp $5, %eax     # un semplice scambio della variabile backhomeVAL
-    je BackhomeVAL_flip
+    cmp $5, %eax     # un semplice scambio della variabile backHome_VAL
+    je Flip_backHome_VAL
     
     cmp $7, %eax
-    je less_arrow    # sottrae uno al numero di freccie fino ad un minimo di due (le freccie sono considerate come un ascii)
+    je ArrowBlink_Decrement    # sottrae uno al numero di freccie fino ad un minimo di due (le freccie sono considerate come un ascii)
     
     jmp OpenMenu    # defoult break
  
 
-  less_arrow: 
-    movl $NumberOfBlink, %edi     # Carica l'indirizzo della stringa NumberOfBlink in %edi
+  ArrowBlink_Decrement: 
+    movl $arrowBlinks_VAL, %edi     # Carica l'indirizzo della stringa arrowBlinks_VAL in %edi
     movb (%edi), %al              # Carica il carattere ASCII corrispondente al primo elemento della stringa in %al
 
     cmpb $'2', %al                # Confronta il valore con '5'
     jle SkipDecrement             # Salta all'etichetta SkipIncrement se è minore o uguale a '2'
 
     subb $1, %al                  # Decrementa il valore del carattere
-    movb %al, (%edi)              # Salva il nuovo valore nella stringa NumberOfBlink
+    movb %al, (%edi)              # Salva il nuovo valore nella stringa arrowBlinks_VAL
 
     SkipDecrement:
     jmp OpenMenu                 # Torna a OpenMenu
 
 
-DoorlockVAL_flip:                         
-    movl doorlockVAL, %eax
+Flip_doorLock_VAL:                         
+    movl doorLock_VAL, %eax
     xorl $1, %eax               # lo xor con 1 permette di scambiare il valore di una variabile binaria
-    movl %eax, doorlockVAL       
+    movl %eax, doorLock_VAL       
     jmp OpenMenu
 
-BackhomeVAL_flip:
-    movl backhomeVAL, %eax
+Flip_backHome_VAL:
+    movl backHome_VAL, %eax
     xorl $1, %eax   
-    movl %eax, backhomeVAL
+    movl %eax, backHome_VAL
     jmp OpenMenu

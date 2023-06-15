@@ -1,0 +1,10 @@
+.model sbarraCK
+.inputs Slp Sec D
+.outputs O
+.names Slp Sec D O
+0-- 1
+-01 1
+.end
+
+# considerando che 1 significa alzare le sbarre
+

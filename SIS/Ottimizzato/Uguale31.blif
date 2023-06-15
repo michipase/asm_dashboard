@@ -1,0 +1,9 @@
+.model uguale31
+.inputs A4 A3 A2 A1 A0
+.outputs z O
+.names z
+.names A4 A3 A2 A1 A0 O
+11111 1
+.end
+
+.end

@@ -1,0 +1,84 @@
+.model takeB
+.inputs A4 A3 A2 A1 A0 Cs Cck Cpm
+.outputs O4 O3 O2 O1 O0 Bp
+.latch    O4 r4 re NIL 0
+.latch    O3 r3 re NIL 0
+.latch    O2 r2 re NIL 0
+.latch    O1 r1 re NIL 0
+.latch    O0 r0 re NIL 0
+.names r4 r3 r2 [211] Bp
+1110 1
+.names A4 Cs r4 pf4 m4 [209] [213] [216] O4
+11------ 1
+---1-1-- 1
+--1---1- 1
+----1--1 1
+.names A3 Cs r3 pf3 m3 [209] [213] [216] O3
+11------ 1
+---1-1-- 1
+--1---1- 1
+----1--1 1
+.names A2 Cs r2 pf2 m1 [209] [210] [213] [216] O2
+11------- 1
+---1-1--- 1
+--1----1- 1
+------0-1 1
+-0-10---- 1
+.names A1 Cs r1 m1 [209] [213] [216] O1
+11----- 1
+---01-- 1
+--1--1- 1
+---1--1 1
+.names A0 Cs r0 [209] [212] [213] O0
+11---- 1
+--01-- 1
+--0-1- 1
+--1--1 1
+.names Bp r4 m4 m3 [210] pf4
+01--- 1
+--010 1
+.names m3 [210] pf3
+11 1
+00 1
+.names r2 [211] pf2
+11 1
+00 1
+.names r4 [217] m4
+11 1
+00 1
+.names r3 [218] m3
+11 1
+00 1
+.names r1 r0 [211] m1
+--0 1
+00- 1
+.names m4 m3 m1 [215] cz
+1110 1
+.names Cs Cck [208]
+01 1
+.names Cpm [208] [209]
+11 1
+.names pf2 m1 [210]
+1- 1
+-0 1
+.names r1 r0 [211]
+0- 1
+-0 1
+.names cz [208] [212]
+01 1
+.names Cs Cck [213]
+00 1
+.names [214]
+.names r2 r0 [215]
+1- 1
+-1 1
+.names Cpm [212] [216]
+01 1
+.names r3 m3 [217]
+1- 1
+-0 1
+.names r1 [215] [218]
+1- 1
+-1 1
+.end
+

@@ -1,0 +1,15 @@
+.model Somma1b
+.inputs A B CIN
+.outputs O COUT
+.names k CIN O
+01 1
+10 1
+.names A CIN k COUT
+-11 1
+1-0 1
+.names A B k
+01 1
+10 1
+
+.end
+

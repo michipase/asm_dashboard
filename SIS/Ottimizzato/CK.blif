@@ -1,0 +1,10 @@
+.model ck
+.inputs Sec B1 B2
+.outputs O
+.names Sec B1 B2 O
+101 1
+110 1
+.end
+
+
+ #porta xor e porta and messe in serie

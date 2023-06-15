@@ -1,0 +1,14 @@
+.model or7b
+.inputs   I6 I5 I4 I3 I2 I1 I0
+.outputs  O
+
+.names I6 I5 I4 I3 I2 I1 I0 O
+1------ 1
+-1----- 1
+--1---- 1
+---1--- 1
+----1-- 1
+-----1- 1
+------1 1
+.end
+

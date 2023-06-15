@@ -1,0 +1,84 @@
+.model brain
+.inputs I4 I3 I2 I1 I0
+.outputs MS sect1 sect2
+.latch    [1724] LatchOut_v5   0
+.latch    [1725] LatchOut_v6   0
+.latch    [1726] LatchOut_v7   1
+.start_kiss
+.i 5
+.o 3
+.p 15
+.s 5
+.r Sleep
+0---- Sleep Sleep 000
+-0--- Sleep Sleep 000
+--0-- Sleep Sleep 000
+---0- Sleep Sleep 000
+----0 Sleep Sleep 000
+11111 Sleep A 000
+----- A B 101
+----- B C 110
+----- C Awake 111
+1---- Awake Awake 100
+-1--- Awake Awake 100
+--1-- Awake Awake 100
+---1- Awake Awake 100
+----1 Awake Awake 100
+00000 Awake Sleep 000
+.end_kiss
+.latch_order LatchOut_v5 LatchOut_v6 LatchOut_v7
+.code Sleep 001
+.code A 101
+.code B 010
+.code C 110
+.code Awake 011
+.names I4 I3 I2 I1 I0 LatchOut_v5 LatchOut_v6 LatchOut_v7 [1724]
+-----0-0 1
+1111100- 1
+.names I4 I3 I2 I1 I0 LatchOut_v5 LatchOut_v6 LatchOut_v7 [1725]
+-----1-- 1
+1-----1- 1
+-1----1- 1
+--1---1- 1
+---1--1- 1
+----1-1- 1
+-----0-0 1
+.names LatchOut_v5 LatchOut_v7 [1726]
+01 1
+10 1
+.names I4 I3 I2 I1 I0 LatchOut_v5 LatchOut_v6 LatchOut_v7 MS
+-----1-- 1
+1-----1- 1
+-1----1- 1
+--1---1- 1
+---1--1- 1
+----1-1- 1
+-----0-0 1
+.names LatchOut_v5 LatchOut_v7 sect1
+10 1
+00 1
+.names LatchOut_v5 sect2
+1 1
+.exdc 
+.inputs I4 I3 I2 I1 I0 LatchOut_v5 LatchOut_v6 LatchOut_v7
+.outputs [1724] [1725] [1726] MS sect1 sect2
+.names LatchOut_v5 LatchOut_v6 LatchOut_v7 [1724]
+-00 1
+111 1
+.names LatchOut_v5 LatchOut_v6 LatchOut_v7 [1725]
+-00 1
+111 1
+.names LatchOut_v5 LatchOut_v6 LatchOut_v7 [1726]
+-00 1
+111 1
+.names LatchOut_v5 LatchOut_v6 LatchOut_v7 MS
+-00 1
+111 1
+.names LatchOut_v5 LatchOut_v6 LatchOut_v7 sect1
+-00 1
+111 1
+.names LatchOut_v5 LatchOut_v6 LatchOut_v7 sect2
+-00 1
+111 1
+.end
+

@@ -1,0 +1,10 @@
+.model FSMD
+.inputs   A4 A3 A2 A1 A0
+.outputs  SectV BarI BarO Afull Bfull Cfull
+.subckt brain I4=A4 I3=A3 I2=A2 I1=A1 I0=A0 MS=pippo sect1=pluto sect2=paperino
+.subckt datapath A4=A4 A3=A3 A2=A2 A1=A1 A0=A0 MS=pippo SA1=pluto SA0=paperino SectV=SectV BarI=BarI BarO=BarO Afull=Afull Bfull=Bfull Cfull=Cfull
+.search FSM.blif
+.search datapath.blif
+
+.end
+

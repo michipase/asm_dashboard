@@ -1,0 +1,20 @@
+.model p15b
+.inputs  A4 A3 A2 A1 A0 
+.outputs O4 O3 O2 O1 O0 
+.subckt one  O=u 
+.subckt zero O=z
+.subckt Somma1b A=A0 B=u CIN=z O=O0 COUT=c1
+.subckt Somma1b A=A1 B=z CIN=c1 O=O1 COUT=c2
+.subckt Somma1b A=A2 B=z CIN=c2 O=O2 COUT=c3
+.subckt Somma1b A=A3 B=z CIN=c3 O=O3 COUT=c4
+.subckt xor     A=A4 B=c4 O=O4 
+
+
+
+.search Somma1b.blif
+.search xor.blif
+.search one.blif
+.search zero.blif
+.end
+
+
