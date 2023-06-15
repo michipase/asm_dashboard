@@ -1,7 +1,0 @@
-.model stampa 
-.imputs  A
-.outputs O
-.names   A O
-1 1
-.end
-

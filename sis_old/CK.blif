@@ -1,8 +1,0 @@
-.model ck
-.inputs Sec B1 B2
-.outputs O
-.subckt xor A=B1 B=B2 O=x 
-.subckt and A=Sec B=x O=O
-.end
-
- #porta xor e porta and messe in serie

@@ -30,7 +30,7 @@ pressureReset_VAL:   .asciz "pressione gomme resettata"
 MAX:    .long 8
 
 # costanti fi vario tipo  
-ADMIN_CODE:   .asciz "2224"
+ADMIN_CODE: .asciz "2224"
 ON:         .asciz "ON "
 OFF:        .asciz "OFF"
 buffer:     .space 3
